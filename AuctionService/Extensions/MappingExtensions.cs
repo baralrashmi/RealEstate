@@ -30,5 +30,33 @@ namespace AuctionService.Extensions
                 ImageUrl = auction.property.ImageUrl
             };
         }
+
+        public static Auction ToAuctionEntity(this CreateAuctionDTO createAuctionDto)
+        {
+            return new Auction
+            {
+
+                ReservePrice = createAuctionDto.ReservePrice,
+                AuctionEnd = createAuctionDto.AuctionEnd,
+                Seller = "DemoSeller", // In a real application, this would come from the authenticated user context
+                property = new Property
+                {
+                    Title = createAuctionDto.property.Title,
+                    Description = createAuctionDto.property.Description,
+                    Address = createAuctionDto.property.Address,
+                    City = createAuctionDto.property.City,
+                    State = createAuctionDto.property.State,
+                    zipCode = createAuctionDto.property.zipCode,
+                    Country = createAuctionDto.property.Country,
+                    Bedrooms = createAuctionDto.property.Bedrooms,
+                    Bathrooms = createAuctionDto.property.Bathrooms,
+                    AreaSqFt = createAuctionDto.property.AreaSqFt,
+                    ImageUrl = createAuctionDto.property.ImageUrl
+                }
+
+            };
+        }
+
+
     }
 }

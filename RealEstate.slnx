@@ -3,5 +3,6 @@
   <Folder Name="/Solution Items/NewFolder1/" />
   <Folder Name="/Src/">
     <Project Path="AuctionService/AuctionService.csproj" />
+    <Project Path="SearchService/SearchService.csproj" Id="6d6a88d6-90e4-4ad2-818d-52aabc5e6b5f" />
   </Folder>
 </Solution>

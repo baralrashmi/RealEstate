@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuctionService.Data
 {
-    public class RealEstateContext : DbContext
+    public class        RealEstateContext : DbContext
     {
         public RealEstateContext(DbContextOptions<RealEstateContext> options) : base(options) 
         {
@@ -19,12 +19,12 @@ namespace AuctionService.Data
             protected override void OnModelCreating(ModelBuilder modelBuilder)
             {
                 base.OnModelCreating(modelBuilder);
-    
+
                 // Configure the relationship between Auction and Property
                 modelBuilder.Entity<Auction>()
                     .HasOne(a => a.property)
                     .WithOne()
-                    .HasForeignKey<Auction>(a => a.Id); // Assuming Auction.Id is the foreign key to Property.Id
+                    .HasForeignKey<Auction>(a => a.PropertyId);                     
         }
 
 

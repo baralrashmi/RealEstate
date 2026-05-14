@@ -15,6 +15,7 @@ namespace AuctionService.Model
         public DateTime AuctionEnd { get; set; }
 
         public AuctionStatus Status { get; set;  }
+        public Guid PropertyId { get; set; }
         public Property property { get; set; }
     }
 }
