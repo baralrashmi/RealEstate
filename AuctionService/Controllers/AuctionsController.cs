@@ -1,4 +1,5 @@
 ﻿using AuctionService.DTOs;
+using AuctionService.Extensions;
 using AuctionService.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,11 +15,11 @@ namespace AuctionService.Controllers
 
         public AuctionsController(IAuctionRepository auctionRepository)
         {
-            auctionRepository = auctionRepository;
+            _auctionRepository = auctionRepository;
         }
 
         [HttpGet]
-        public async Task<ActionResult<AuctionDTO>> GetAuctions()
+        public async Task<ActionResult<List<AuctionDTO>>> GetAuctions()
         {
             var auctions = await _auctionRepository.GetAuctionAsync();
             return Ok(auctions);
@@ -42,7 +43,17 @@ namespace AuctionService.Controllers
         public async Task<ActionResult<AuctionDTO>> CreateAuction(CreateAuctionDTO createAuctionDto)
         {
             // Implementation for creating a new auction
-            return CreatedAtAction(nameof(GetAuctionById), new { id = Guid.NewGuid() }, createAuctionDto);
+            //return CreatedAtAction(nameof(GetAuctionById), new { id = Guid.NewGuid() }, createAuctionDto);
+            var auction=createAuctionDto.ToAuctionEntity();
+
+            var result = await _auctionRepository.CreateAuction(auction);
+
+            if(result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+
         }
     }
 

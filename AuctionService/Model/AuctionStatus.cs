@@ -1,7 +1,10 @@
 ﻿namespace AuctionService.Model
 {
-    public class AuctionStatus
-    {   
+    public enum AuctionStatus
+    {
+        Live,
+        Sold,
+        Unsold
 
 
     }

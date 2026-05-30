@@ -1,0 +1,27 @@
+services:
+
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Password@123"
+    ports:
+      - "1434:1433"
+      
+    volumes:
+      - mssql-data:/var/opt/mssql
+
+
+volumes:
+  mssql-data:
+
+  rabbitmq-data:
+      
+
+    
+  redis-data:
+  
+
+
+

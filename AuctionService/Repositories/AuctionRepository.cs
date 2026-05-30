@@ -1,15 +1,34 @@
 ﻿using AuctionService.Data;
 using AuctionService.DTOs;
+using AuctionService.Extensions;
+using AuctionService.Model;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace AuctionService.Repositories
 {
     public class AuctionRepository(RealEstateContext realEstateContext) : IAuctionRepository
     {
-        public Task<ActionResult<AuctionDTO>> CreateAuction(AuctionDTO auctionDto)
+        //explain below line
+        // This line defines a constructor for the AuctionRepository class that takes a RealEstateContext object as a parameter. The RealEstateContext is likely a class that represents the database context for the application, allowing the repository to interact with the database. By using this constructor, an instance of AuctionRepository can be created with a specific RealEstateContext, enabling it to perform database operations related to auctions.
+
+        //
+        public async Task<ActionResult<AuctionDTO>> CreateAuction(Auction auction)
+            // This method, CreateAuction, is an asynchronous function that takes an
+            // Auction object as a parameter and
+            // returns a Task containing an ActionResult of type AuctionDTO.
+            // The method is responsible for adding the provided Auction object
+            // to the database context (realEstateContext) and saving the changes asynchronously.
+            // After successfully saving the auction to the database,
+            // it returns an ActionResult containing the newly created auction converted to an AuctionDTO
+            // using the ToAuctionDTO extension method.
+            // This allows the caller to receive a representation of the created auction
+            // in a format suitable for data transfer (DTO).
         {
-            throw new NotImplementedException();
+            realEstateContext.auctions.Add(auction);
+            await realEstateContext.SaveChangesAsync();
+            return new ActionResult<AuctionDTO>(auction.ToAuctionDTO());
         }
 
         public async Task<List<AuctionDTO>> GetAuctionAsync()
@@ -17,60 +36,27 @@ namespace AuctionService.Repositories
             var auctions = await realEstateContext.auctions
                 .Include(x => x.property)
                 .OrderBy(x => x.property.Title)
-                .Select(a => new AuctionDTO
-                {
-                    Id = a.Id,
-                    ReservePrice = a.ReservePrice,
-                    Seller = a.Seller,
-                    Winner = a.Winner,
-                    SoldAmount = a.SoldAmount,
-                    CurrentHighBid = a.CurrentHighBid,
-                    Status = a.Status,
-                    Title = a.property.Title,
-                    Description = a.property.Description,
-                    Address = a.property.Address,
-                    City = a.property.City,
-                    State = a.property.State,
-                    zipCode = a.property.zipCode,
-                    Country = a.property.Country,
-                    Bedrooms = a.property.Bedrooms,
-                    Bathrooms = a.property.Bathrooms,
-                    AreaSqFt = a.property.AreaSqFt,
-                    ImageUrl = a.property.ImageUrl
-                })
-                .ToListAsync();
+                .AsQueryable().ToListAsync();
 
-            return auctions;
+
+            return auctions.Select(a => a.ToAuctionDTO()).ToList();
+
         }
 
         public async Task<ActionResult<AuctionDTO>> GetAuctionByIdAsync(Guid id)
         {
-            var query = await  realEstateContext.auctions
+            var query = await realEstateContext.auctions
                 .Include(x => x.property)
                 .Where(a => a.Id == id)
-                .Select(a => new AuctionDTO
-                {
-                    Id = a.Id,
-                    ReservePrice = a.ReservePrice,
-                    Seller = a.Seller,
-                    Winner = a.Winner,
-                    SoldAmount = a.SoldAmount,
-                    CurrentHighBid = a.CurrentHighBid,
-                    Status = a.Status,
-                    Title = a.property.Title,
-                    Description = a.property.Description,
-                    Address = a.property.Address,
-                    City = a.property.City,
-                    State = a.property.State,
-                    zipCode = a.property.zipCode,
-                    Country = a.property.Country,
-                    Bedrooms = a.property.Bedrooms,
-                    Bathrooms = a.property.Bathrooms,
-                    AreaSqFt = a.property.AreaSqFt,
-                    ImageUrl = a.property.ImageUrl
-                })
                 .FirstOrDefaultAsync();
-            return query != null ? new ActionResult<AuctionDTO>(query) : new NotFoundResult();
+            if(query == null)
+            {
+                return new NotFoundResult();
+            }
+
+
+            return new ActionResult<AuctionDTO>(query.ToAuctionDTO());
         }
+
     }
 }

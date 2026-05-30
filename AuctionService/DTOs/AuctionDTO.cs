@@ -23,5 +23,8 @@ namespace AuctionService.DTOs
         public int Bathrooms { get; set; }
         public decimal AreaSqFt { get; set; }
         public required string ImageUrl { get; set; }
+
+
+
     }
 }

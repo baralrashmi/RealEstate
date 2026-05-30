@@ -9,5 +9,30 @@ namespace AuctionService.DTOs
         public DateTime AuctionEnd { get; set; }
         public string Seller { get; set; }
         public Property property { get; set; }
+
+
+        //Add a method to convert CreateAuctionDTO to Auction entity
+        public Auction ToAuction()
+        {
+            return new Auction
+            {
+                ReservePrice = this.ReservePrice,
+                AuctionEnd = this.AuctionEnd,
+                Seller = this.Seller,
+                property = this.property
+            };
+        }
+
+        //Add A method to convert Auction entity to CreateAuctionDTO
+        public static CreateAuctionDTO FromAuction(Auction auction)
+        {
+            return new CreateAuctionDTO
+            {
+                ReservePrice = auction.ReservePrice,
+                AuctionEnd = auction.AuctionEnd,
+                Seller = auction.Seller,
+                property = auction.property
+            };
+        }
     }
 }
