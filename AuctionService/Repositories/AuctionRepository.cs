@@ -15,27 +15,27 @@ namespace AuctionService.Repositories
 
         //
         public async Task<ActionResult<AuctionDTO>> CreateAuction(Auction auction)
-            // This method, CreateAuction, is an asynchronous function that takes an
-            // Auction object as a parameter and
-            // returns a Task containing an ActionResult of type AuctionDTO.
-            // The method is responsible for adding the provided Auction object
-            // to the database context (realEstateContext) and saving the changes asynchronously.
-            // After successfully saving the auction to the database,
-            // it returns an ActionResult containing the newly created auction converted to an AuctionDTO
-            // using the ToAuctionDTO extension method.
-            // This allows the caller to receive a representation of the created auction
-            // in a format suitable for data transfer (DTO).
+        // This method, CreateAuction, is an asynchronous function that takes an
+        // Auction object as a parameter and
+        // returns a Task containing an ActionResult of type AuctionDTO.
+        // The method is responsible for adding the provided Auction object
+        // to the database context (realEstateContext) and saving the changes asynchronously.
+        // After successfully saving the auction to the database,
+        // it returns an ActionResult containing the newly created auction converted to an AuctionDTO
+        // using the ToAuctionDTO extension method.
+        // This allows the caller to receive a representation of the created auction
+        // in a format suitable for data transfer (DTO).
         {
-            realEstateContext.auctions.Add(auction);
+            realEstateContext.Auctions.Add(auction);
             await realEstateContext.SaveChangesAsync();
             return new ActionResult<AuctionDTO>(auction.ToAuctionDTO());
         }
 
         public async Task<List<AuctionDTO>> GetAuctionAsync()
         {
-            var auctions = await realEstateContext.auctions
-                .Include(x => x.property)
-                .OrderBy(x => x.property.Title)
+            var auctions = await realEstateContext.Auctions
+                .Include(x => x.Property)
+                .OrderBy(x => x.Property.Title)
                 .AsQueryable().ToListAsync();
 
 
@@ -45,11 +45,11 @@ namespace AuctionService.Repositories
 
         public async Task<ActionResult<AuctionDTO>> GetAuctionByIdAsync(Guid id)
         {
-            var query = await realEstateContext.auctions
-                .Include(x => x.property)
+            var query = await realEstateContext.Auctions
+                .Include(x => x.Property)
                 .Where(a => a.Id == id)
                 .FirstOrDefaultAsync();
-            if(query == null)
+            if (query == null)
             {
                 return new NotFoundResult();
             }

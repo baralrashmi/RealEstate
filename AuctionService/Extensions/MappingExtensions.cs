@@ -17,17 +17,17 @@ namespace AuctionService.Extensions
                 SoldAmount = auction.SoldAmount,
                 CurrentHighBid = auction.CurrentHighBid,
                 Status = auction.Status,
-                Title = auction.property.Title,
-                Description = auction.property.Description,
-                Address = auction.property.Address,
-                City = auction.property.City,
-                State = auction.property.State,
-                zipCode = auction.property.zipCode,
-                Country = auction.property.Country,
-                Bedrooms = auction.property.Bedrooms,
-                Bathrooms = auction.property.Bathrooms,
-                AreaSqFt = auction.property.AreaSqFt,
-                ImageUrl = auction.property.ImageUrl
+                Title = auction.Property.Title,
+                Description = auction.Property.Description,
+                Address = auction.Property.Address,
+                City = auction.Property.City,
+                State = auction.Property.State,
+                zipCode = auction.Property.zipCode,
+                Country = auction.Property.Country,
+                Bedrooms = auction.Property.Bedrooms,
+                Bathrooms = auction.Property.Bathrooms,
+                AreaSqFt = auction.Property.AreaSqFt,
+                ImageUrl = auction.Property.ImageUrl
             };
         }
 
@@ -39,19 +39,19 @@ namespace AuctionService.Extensions
                 ReservePrice = createAuctionDto.ReservePrice,
                 AuctionEnd = createAuctionDto.AuctionEnd,
                 Seller = "DemoSeller", // In a real application, this would come from the authenticated user context
-                property = new Property
+                Property = new Property
                 {
-                    Title = createAuctionDto.property.Title,
-                    Description = createAuctionDto.property.Description,
-                    Address = createAuctionDto.property.Address,
-                    City = createAuctionDto.property.City,
-                    State = createAuctionDto.property.State,
-                    zipCode = createAuctionDto.property.zipCode,
-                    Country = createAuctionDto.property.Country,
-                    Bedrooms = createAuctionDto.property.Bedrooms,
-                    Bathrooms = createAuctionDto.property.Bathrooms,
-                    AreaSqFt = createAuctionDto.property.AreaSqFt,
-                    ImageUrl = createAuctionDto.property.ImageUrl
+                    Title = createAuctionDto.Property.Title,
+                    Description = createAuctionDto.Property.Description,
+                    Address = createAuctionDto.Property.Address,
+                    City = createAuctionDto.Property.City,
+                    State = createAuctionDto.Property.State,
+                    zipCode = createAuctionDto.Property.zipCode,
+                    Country = createAuctionDto.Property.Country,
+                    Bedrooms = createAuctionDto.Property.Bedrooms,
+                    Bathrooms = createAuctionDto.Property.Bathrooms,
+                    AreaSqFt = createAuctionDto.Property.AreaSqFt,
+                    ImageUrl = createAuctionDto.Property.ImageUrl
                 }
 
             };

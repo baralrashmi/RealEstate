@@ -8,7 +8,7 @@ namespace AuctionService.DTOs
         public int ReservePrice { get; set; } = 0;
         public DateTime AuctionEnd { get; set; }
         public string Seller { get; set; }
-        public Property property { get; set; }
+        public Property Property { get; set; }
 
 
         //Add a method to convert CreateAuctionDTO to Auction entity
@@ -19,7 +19,7 @@ namespace AuctionService.DTOs
                 ReservePrice = this.ReservePrice,
                 AuctionEnd = this.AuctionEnd,
                 Seller = this.Seller,
-                property = this.property
+                Property = this.Property
             };
         }
 
@@ -31,7 +31,7 @@ namespace AuctionService.DTOs
                 ReservePrice = auction.ReservePrice,
                 AuctionEnd = auction.AuctionEnd,
                 Seller = auction.Seller,
-                property = auction.property
+                Property = auction.Property
             };
         }
     }

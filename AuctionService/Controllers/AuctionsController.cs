@@ -1,8 +1,6 @@
 ﻿using AuctionService.DTOs;
 using AuctionService.Extensions;
 using AuctionService.Repositories;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionService.Controllers
@@ -23,7 +21,7 @@ namespace AuctionService.Controllers
         {
             var auctions = await _auctionRepository.GetAuctionAsync();
             return Ok(auctions);
-       
+
         }
 
         [HttpGet("{id}")]
@@ -36,7 +34,7 @@ namespace AuctionService.Controllers
             }
             return Ok(auction);
         }
-        
+
         [HttpPost]
         //[Authorize(Roles = "Seller")] 
 
@@ -44,11 +42,11 @@ namespace AuctionService.Controllers
         {
             // Implementation for creating a new auction
             //return CreatedAtAction(nameof(GetAuctionById), new { id = Guid.NewGuid() }, createAuctionDto);
-            var auction=createAuctionDto.ToAuctionEntity();
+            var auction = createAuctionDto.ToAuctionEntity();
 
             var result = await _auctionRepository.CreateAuction(auction);
 
-            if(result == null)
+            if (result == null)
             {
                 return NotFound();
             }

@@ -1,5 +1,5 @@
-using SearchService.Data;
 using Microsoft.EntityFrameworkCore;
+using SearchService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
