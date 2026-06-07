@@ -25,7 +25,8 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<RealEstateContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
-
+//app is built after all the services are added to the container,
+//and then the HTTP request pipeline is configured before running the application.
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

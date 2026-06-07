@@ -17,11 +17,13 @@ namespace AuctionService.Data
 
             var auctions = new List<Auction>
             {
-                new Auction 
+                new Auction
                 {
                     Id = Guid.NewGuid(),
                     ReservePrice = 500000,
                     Seller = "seller1",
+                    Winner=string.Empty,
+                    CurrentHighBid=0,
                     Status = AuctionStatus.Live,
                     AuctionEnd = DateTime.UtcNow.AddDays(30),
                     CreatedAt = DateTime.UtcNow,
@@ -47,6 +49,8 @@ namespace AuctionService.Data
                     Id = Guid.NewGuid(),
                     ReservePrice = 750000,
                     Seller = "seller2",
+                    Winner=string.Empty,
+                    CurrentHighBid=0,
                     Status = AuctionStatus.Live,
                     AuctionEnd = DateTime.UtcNow.AddDays(45),
                     CreatedAt = DateTime.UtcNow,
@@ -71,6 +75,8 @@ namespace AuctionService.Data
                     Id = Guid.NewGuid(),
                     ReservePrice = 350000,
                     Seller = "seller3",
+                    Winner=string.Empty,
+                    CurrentHighBid=0,
                     Status = AuctionStatus.Live,
                     AuctionEnd = DateTime.UtcNow.AddDays(20),
                     CreatedAt = DateTime.UtcNow,
@@ -95,6 +101,8 @@ namespace AuctionService.Data
                     Id = Guid.NewGuid(),
                     ReservePrice = 950000,
                     Seller = "seller4",
+                    Winner=string.Empty,
+                    CurrentHighBid=0,
                     Status = AuctionStatus.Live,
                     AuctionEnd = DateTime.UtcNow.AddDays(40),
                     CreatedAt = DateTime.UtcNow,
@@ -119,6 +127,8 @@ namespace AuctionService.Data
                     Id = Guid.NewGuid(),
                     ReservePrice = 425000,
                     Seller = "seller5",
+                    Winner=string.Empty,
+                    CurrentHighBid=0,
                     Status = AuctionStatus.Live,
                     AuctionEnd = DateTime.UtcNow.AddDays(-5),
                     CreatedAt = DateTime.UtcNow.AddDays(-35),
@@ -143,6 +153,8 @@ namespace AuctionService.Data
                     Id = Guid.NewGuid(),
                     ReservePrice = 2500000,
                     Seller = "seller6",
+                    Winner=string.Empty,
+                    CurrentHighBid=0,
                     Status = AuctionStatus.Live,
                     AuctionEnd = DateTime.UtcNow.AddDays(-10),
                     CreatedAt = DateTime.UtcNow.AddDays(-40),
@@ -170,9 +182,13 @@ namespace AuctionService.Data
 
         public static void InitializeData(WebApplication app)
         {
+            //Create a scope to get the RealEstateContext from the service provider
             using var scope = app.Services.CreateScope();
+            
             var context = scope.ServiceProvider.GetService<RealEstateContext>()
                 ?? throw new InvalidOperationException("Unable to get RealEstateContext from service provider.");
+            
+            //Pass the context to the Initialize method to seed the database
             Initialize(context);
         }
     }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SearchService.Data;
 
@@ -11,9 +12,11 @@ using SearchService.Data;
 namespace SearchService.Migrations
 {
     [DbContext(typeof(SearchDbContext))]
-    partial class SearchDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260607145415_updateColumns")]
+    partial class updateColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

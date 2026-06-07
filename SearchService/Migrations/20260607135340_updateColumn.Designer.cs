@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SearchService.Data;
 
@@ -11,9 +12,11 @@ using SearchService.Data;
 namespace SearchService.Migrations
 {
     [DbContext(typeof(SearchDbContext))]
-    partial class SearchDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260607135340_updateColumn")]
+    partial class updateColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,9 +38,6 @@ namespace SearchService.Migrations
                     b.Property<decimal>("AreaSqFt")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateTime>("AuctionEnd")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("Bathrooms")
                         .HasColumnType("int");
 
@@ -51,9 +51,6 @@ namespace SearchService.Migrations
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("CurrentHighBid")
                         .HasColumnType("int");
@@ -80,8 +77,9 @@ namespace SearchService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
