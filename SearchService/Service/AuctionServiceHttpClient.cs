@@ -1,6 +1,7 @@
 ﻿using Azure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Polly;
 using SearchService.Data;
 using SearchService.Model;
 
@@ -46,6 +47,10 @@ namespace SearchService.Service
             }
 
             // Make HTTP GET request to auction service
+            //We need to retry the request if it fails due to transient errors (e.g., network issues, server errors).
+            //We can use Polly, a .NET resilience and transient-fault-handling library, to implement retry logic.
+            
+            
 
             var items = await _httpClient.GetFromJsonAsync<List<SearchProperty>>(url);
 
@@ -55,12 +60,7 @@ namespace SearchService.Service
             // List<SearchProperty> items = new List<SearchProperty>();
             //items = await response.Content.ReadFromJsonAsync<List<SearchProperty>>() ?? new List<SearchProperty>();
 
-            // Insert data into database
-            foreach (var item in items)
-            {
-                _dbContext.Add(item);
-            }
-            _dbContext.SaveChanges();
+         
 
             return items;
 

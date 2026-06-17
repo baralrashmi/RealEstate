@@ -29,6 +29,7 @@ namespace AuctionService.Repositories
             realEstateContext.Auctions.Add(auction);
             await realEstateContext.SaveChangesAsync();
             return new ActionResult<AuctionDTO>(auction.ToAuctionDTO());
+
         }
 
         public async Task<List<AuctionDTO>> GetAuctionAsync()
@@ -58,5 +59,9 @@ namespace AuctionService.Repositories
             return new ActionResult<AuctionDTO>(query.ToAuctionDTO());
         }
 
+        public async Task<bool> SaveAllChangesAsync()
+        {
+            return await realEstateContext.SaveChangesAsync() > 0;
+        }
     }
 }

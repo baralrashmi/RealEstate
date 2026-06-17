@@ -9,6 +9,7 @@ namespace AuctionService.Repositories
         Task<List<AuctionDTO>> GetAuctionAsync();
         Task<ActionResult<AuctionDTO>> GetAuctionByIdAsync(Guid id);
         Task<ActionResult<AuctionDTO>> CreateAuction(Auction auction);
+        Task<bool> SaveAllChangesAsync();
 
     }
 }

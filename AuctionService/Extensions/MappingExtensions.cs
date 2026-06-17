@@ -1,5 +1,6 @@
 ﻿using AuctionService.DTOs;
 using AuctionService.Model;
+using Contracts;
 
 namespace AuctionService.Extensions
 {
@@ -60,6 +61,28 @@ namespace AuctionService.Extensions
             };
         }
 
+        public static AuctionCreated ToAuctionCreated(this AuctionDTO AuctionDto)
+        {
 
+            return new AuctionCreated
+            {
+                Id = AuctionDto.Id,
+                Seller = AuctionDto.Seller,
+                CreatedAt = AuctionDto.CreatedAt,
+                AuctionEnd = AuctionDto.AuctionEnd,
+                Status = AuctionDto.Status.ToString(),
+                Title = AuctionDto.Title,
+                Description = AuctionDto.Description,
+                Address = AuctionDto.Address,
+                City = AuctionDto.City,
+                State = AuctionDto.State,
+                Bedrooms = AuctionDto.Bedrooms,
+                Bathrooms = AuctionDto.Bathrooms,
+                AreaSqFt = AuctionDto.AreaSqFt,
+                ImageUrl = AuctionDto.ImageUrl,
+
+            };
+
+        }
     }
 }

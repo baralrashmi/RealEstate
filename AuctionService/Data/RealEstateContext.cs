@@ -1,4 +1,5 @@
 ﻿using AuctionService.Model;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -31,6 +32,12 @@ namespace AuctionService.Data
             modelBuilder.Entity<Property>()
                 .Property(p => p.AreaSqFt)
                 .HasColumnType("decimal(18,2)");
+
+            // Add MassTransit entities
+            // These AddInboxStateEntity, AddOutboxMessageEntity, and AddOutboxStateEntity methods are used by MassTransit to store messages and their states in the database.
+            modelBuilder.AddInboxStateEntity();
+            modelBuilder.AddOutboxMessageEntity();
+            modelBuilder.AddOutboxStateEntity();
         }
 
 

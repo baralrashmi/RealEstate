@@ -1,6 +1,7 @@
 ﻿using AuctionService.DTOs;
 using AuctionService.Extensions;
 using AuctionService.Repositories;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionService.Controllers
@@ -10,10 +11,12 @@ namespace AuctionService.Controllers
     public class AuctionsController : ControllerBase
     {
         private readonly IAuctionRepository _auctionRepository;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public AuctionsController(IAuctionRepository auctionRepository)
+        public AuctionsController(IAuctionRepository auctionRepository, IPublishEndpoint publishEndpoint)
         {
             _auctionRepository = auctionRepository;
+            _publishEndpoint = publishEndpoint;
         }
 
         [HttpGet]
@@ -44,13 +47,20 @@ namespace AuctionService.Controllers
             //return CreatedAtAction(nameof(GetAuctionById), new { id = Guid.NewGuid() }, createAuctionDto);
             var auction = createAuctionDto.ToAuctionEntity();
 
+
+            await _publishEndpoint.Publish(auction.ToAuctionDTO().ToAuctionCreated());
+
             var result = await _auctionRepository.CreateAuction(auction);
 
             if (result == null)
             {
                 return NotFound();
             }
-            return Ok(result);
+            // CreatedAtAction means
+
+            //
+            return CreatedAtAction(nameof(GetAuctionById), new { id = Guid.NewGuid() }, createAuctionDto);
+            //return Ok(result);
 
         }
     }

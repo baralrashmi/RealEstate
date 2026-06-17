@@ -1,5 +1,6 @@
 using AuctionService.Data;
 using AuctionService.Repositories;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -25,6 +26,38 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<RealEstateContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+
+
+//Configure Add MassTransit and RabbitMQ
+builder.Services.AddMassTransit(
+
+    busConfig =>
+    {
+        //Add MassTransit configuration for RabbitMQ , Add Tables in database for MassTransit
+        //This helps to store the messages in the database and ensures that messages are not lost in case of any failure.
+        //It also provides a way to track the status of messages and retry them if necessary.
+        busConfig.AddEntityFrameworkOutbox<RealEstateContext>(outboxConfig =>
+        {
+            // this is for retrying
+
+            outboxConfig.QueryDelay = TimeSpan.FromSeconds(10);
+            outboxConfig.UseSqlServer();
+            outboxConfig.UseBusOutbox();
+        });
+
+        busConfig.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("auction-service", false));
+        busConfig.UsingRabbitMq((Contex, config) =>
+        {
+            
+            //cfg.Host(builder.Configuration.GetConnectionString("RabbitMQ"));
+            config.ConfigureEndpoints(Contex);
+        });
+    }
+);
+
+
+
+
 //app is built after all the services are added to the container,
 //and then the HTTP request pipeline is configured before running the application.
 var app = builder.Build();
