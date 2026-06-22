@@ -1,13 +1,21 @@
 ﻿using AuctionService.Model;
 using Contracts;
 using MassTransit;
+using SearchService.Data;
 using SearchService.Model;
 
 namespace SearchService.Consumers
 {
     public class AuctionCreatedConsumer : IConsumer<AuctionCreated>
     {
-        public Task Consume(ConsumeContext<AuctionCreated> context)
+        private readonly SearchDbContext _context;
+
+        public AuctionCreatedConsumer(SearchDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task Consume(ConsumeContext<AuctionCreated> context)
         {
             var data = context.Message;
             var property = new SearchProperty
@@ -35,8 +43,10 @@ namespace SearchService.Consumers
                 ImageUrl = data.ImageUrl
             };
 
+            _context.SearchProperties.Add(property);
+            await _context.SaveChangesAsync();
 
-            return Task.CompletedTask;
+            
         }
     }
 }

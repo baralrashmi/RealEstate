@@ -36,20 +36,24 @@ builder.Services.AddMassTransit(
         //This helps to store the messages in the database and ensures that messages are not lost in case of any failure.
         //It also provides a way to track the status of messages and retry them if necessary.
 
+        // Register the consumer first
+        busConfig.AddConsumer<AuctionCreatedConsumer>();
+
+
         busConfig.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("search", false));
         busConfig.UsingRabbitMq((Contex, config) =>
         {
             // Manual connection to host service bus provider such as Azure
             // or any other messaging platform
             //
-            config.Host(builder.Configuration["RabbitMq:Host"], "/", host =>
-            {
-                host.Username("guest");
-                host.Password("guest");
-            });
+            //config.Host(builder.Configuration["RabbitMq:Host"], "/", host =>
+            //{
+            //    host.Username("guest");
+            //    host.Password("guest");
+            //});
 
             //Manual configuration of endpoint
-            config.ReceiveEndpoint("Search-auction-created", e =>
+            config.ReceiveEndpoint("order-queue", e =>
             {
                 e.UseMessageRetry(r => r.Interval(5, 5));
                 e.ConfigureConsumer<AuctionCreatedConsumer>(Contex);

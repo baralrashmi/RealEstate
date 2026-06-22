@@ -68,6 +68,7 @@ namespace AuctionService.Extensions
             {
                 Id = AuctionDto.Id,
                 Seller = AuctionDto.Seller,
+                Winner=AuctionDto.Winner,
                 CreatedAt = AuctionDto.CreatedAt,
                 AuctionEnd = AuctionDto.AuctionEnd,
                 Status = AuctionDto.Status.ToString(),
@@ -75,7 +76,9 @@ namespace AuctionService.Extensions
                 Description = AuctionDto.Description,
                 Address = AuctionDto.Address,
                 City = AuctionDto.City,
+                Country=AuctionDto.Country,
                 State = AuctionDto.State,
+                zipCode=AuctionDto.zipCode,
                 Bedrooms = AuctionDto.Bedrooms,
                 Bathrooms = AuctionDto.Bathrooms,
                 AreaSqFt = AuctionDto.AreaSqFt,
