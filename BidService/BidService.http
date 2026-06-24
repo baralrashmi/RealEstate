@@ -1,0 +1,20 @@
+@baseUrl = http://localhost:5002/api
+
+### Get all bids for an auction
+GET {{baseUrl}}/bids/auction/00000000-0000-0000-0000-000000000001
+
+### Get highest bid for an auction
+GET {{baseUrl}}/bids/auction/00000000-0000-0000-0000-000000000001/highest
+
+### Get a specific bid
+GET {{baseUrl}}/bids/00000000-0000-0000-0000-000000000001
+
+### Create a new bid
+POST {{baseUrl}}/bids
+Content-Type: application/json
+
+{
+  "auctionId": "00000000-0000-0000-0000-000000000001",
+  "bidderName": "John Doe",
+  "bidAmount": 150000
+}

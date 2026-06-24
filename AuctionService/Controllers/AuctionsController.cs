@@ -1,6 +1,7 @@
 ﻿using AuctionService.DTOs;
 using AuctionService.Extensions;
 using AuctionService.Repositories;
+using AuctionService.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionService.Controllers
@@ -10,10 +11,12 @@ namespace AuctionService.Controllers
     public class AuctionsController : ControllerBase
     {
         private readonly IAuctionRepository _auctionRepository;
+        private readonly IAuctionEventPublisher _eventPublisher;
 
-        public AuctionsController(IAuctionRepository auctionRepository)
+        public AuctionsController(IAuctionRepository auctionRepository, IAuctionEventPublisher eventPublisher)
         {
             _auctionRepository = auctionRepository;
+            _eventPublisher = eventPublisher;
         }
 
         [HttpGet]
@@ -40,18 +43,29 @@ namespace AuctionService.Controllers
 
         public async Task<ActionResult<AuctionDTO>> CreateAuction(CreateAuctionDTO createAuctionDto)
         {
-            // Implementation for creating a new auction
-            //return CreatedAtAction(nameof(GetAuctionById), new { id = Guid.NewGuid() }, createAuctionDto);
             var auction = createAuctionDto.ToAuctionEntity();
-
-            var result = await _auctionRepository.CreateAuction(auction);
-
-            if (result == null)
+            var actionResult = await _auctionRepository.CreateAuction(auction);
+            
+            if (actionResult == null || actionResult.Value == null)
             {
                 return NotFound();
             }
-            return Ok(result);
 
+            var result = actionResult.Value;
+
+            // Publish auction created event
+            var auctionEvent = new
+            {
+                Id = result.Id,
+                Seller = result.Seller,
+                ReservePrice = result.ReservePrice,
+                AuctionEnd = result.AuctionEnd,
+                Status = "Live"
+            };
+            
+            await _eventPublisher.PublishAuctionCreatedAsync(auctionEvent);
+
+            return Ok(result);
         }
     }
 
