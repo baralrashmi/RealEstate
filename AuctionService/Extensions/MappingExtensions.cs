@@ -42,7 +42,7 @@ namespace AuctionService.Extensions
 
                 ReservePrice = createAuctionDto.ReservePrice,
                 AuctionEnd = createAuctionDto.AuctionEnd,
-                Seller = "DemoSeller", // In a real application, this would come from the authenticated user context
+                Seller = createAuctionDto.Seller, // In a real application, this would come from the authenticated user context
                 Property = new Property
                 {
                     Title = createAuctionDto.Property.Title,
